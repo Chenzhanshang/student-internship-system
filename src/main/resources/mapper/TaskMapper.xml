@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxy.studentinternshipsystem.dao.TaskDao">
+    <insert id="insertTask" parameterType="Task">
+        insert into t_task(task_id, user_id, task_content, task_time)
+        values (#{taskId}, #{user.userId}, #{taskContent}, #{taskTime})
+    </insert>
+
+    <select id="getAllTask" resultMap="taskMap">
+        select tt.task_id task_id, tt.task_content task_content, tt.task_time task_time,
+        tu.user_id user_id, tu.name name
+        from t_task tt
+        left join t_user tu
+        on tt.user_id = tu.user_id
+    </select>
+
+
+    <resultMap id="taskMap" type="Task">
+        <id column="task_id" property="taskId" javaType="String" />
+        <result column="task_content" property="taskContent" javaType="String" />
+        <result column="task_time" property="taskTime" javaType="String" />
+
+        <association property="user" javaType="User" column="user_id">
+            <id column="user_id" property="userId" javaType="String" />
+            <result column="name" property="name" javaType="String" />
+        </association>
+    </resultMap>
+
+
+    <delete id="deleteTask" parameterType="String">
+        delete from t_task where task_id = #{v}
+    </delete>
+
+    <delete id="delete" parameterType="String">
+        delete from t_task where user_id = #{v}
+    </delete>
+</mapper>
+

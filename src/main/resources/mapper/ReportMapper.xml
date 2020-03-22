@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxy.studentinternshipsystem.dao.ReportDao">
+    <insert id="insertReport" parameterType="Report" >
+        insert into t_report(report_id, user_id, report_content, report_time)
+        values (#{reportId} , #{user.userId}, #{reportContent}, #{reportTime})
+    </insert>
+
+    <select id="getUserReport" parameterType="String" resultType="Report">
+        select * from t_report where user_id = #{v}
+    </select>
+
+    <select id="getAllReport" resultMap="reportMap">
+        select tr.report_id report_id, tr.report_content report_content, tr.report_time report_time,
+        tu.user_id user_id, tu.name name
+        from t_report tr
+        left join t_user tu
+        on tr.user_id = tu.user_id
+    </select>
+    <resultMap id="reportMap" type="Report">
+        <id column="report_id" property="reportId" javaType="String" />
+        <result column="report_content" property="reportContent" javaType="String" />
+        <result column="report_time" property="reportTime" javaType="String" />
+
+        <association property="user" javaType="User" column="user_id">
+            <id column="user_id" property="userId" javaType="String" />
+            <result column="name" property="name" javaType="String" />
+        </association>
+    </resultMap>
+
+    <delete id="delete" parameterType="String">
+        delete from t_report where user_id = #{v}
+    </delete>
+</mapper>
+

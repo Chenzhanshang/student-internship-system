@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxy.studentinternshipsystem.dao.ApplyDao">
+    <insert id="insertApply" parameterType="Apply">
+        insert into t_apply(apply_id, user_id, apply_time, company_name, company_site, company_phone, state)
+        values (#{applyId}, #{user.userId}, #{applyTime}, #{companyName}, #{companySite}, #{companyPhone}, #{state})
+
+    </insert>
+    <select id="getUserApply" parameterType="String" resultType="Apply">
+        select * from t_apply where user_id = #{v}
+    </select>
+
+    <select id="getAllApplyByState" resultMap="applyMap">
+        select ta.apply_id apply_id, ta.state state, ta.company_name company_name,
+        ta.company_phone company_phone, ta.apply_time apply_time,ta.company_site company_site,
+        tu.user_id user_id,tu.name name
+        from t_apply ta
+        left join t_user tu on ta.user_id = tu.user_id
+        where ta.state = '申请中'
+    </select>
+    <resultMap id="applyMap" type="Apply">
+        <id column="apply_id" property="applyId" javaType="String"></id>
+        <result column="state" property="state" javaType="String" />
+        <result column="company_name" property="companyName" javaType="String" />
+        <result column="company_phone" property="companyPhone" javaType="String" />
+        <result column="apply_time" property="applyTime" javaType="String" />
+        <result column="company_site" property="companySite" javaType="String" />
+        <association property="user" javaType="User" column="user_id">
+            <id column="user_id" property="userId" javaType="String"></id>
+            <result column="name" property="name" javaType="String" />
+        </association>
+
+    </resultMap>
+
+    <update id="updateApplyStateById" parameterType="String">
+        update t_apply set state = #{applyState} where apply_id = #{applyId}
+    </update>
+
+    <delete id="delete" parameterType="String">
+        delete from t_apply where user_id = #{v}
+    </delete>
+</mapper>

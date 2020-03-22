@@ -1,0 +1,25 @@
+package com.qxy.studentinternshipsystem.dao;
+
+import com.qxy.studentinternshipsystem.entity.User;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+@Mapper
+public interface UserDao {
+    public void insertUser(User user);
+
+    User getUserByUserNameAndPassword(User user);
+
+    void updateUser(User user);
+
+    void updatePassword(User user);
+
+    User getUserByUserMsg(User user);
+
+    User getUserByUserName(String userName);
+
+    List<User> getAllUser();
+
+    void deleteUser(String userId);
+}
