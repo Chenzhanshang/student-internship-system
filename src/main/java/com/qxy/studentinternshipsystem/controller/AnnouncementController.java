@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +26,9 @@ public class AnnouncementController {
     public @ResponseBody
     ResponseMessage issueAnnouncement(@RequestBody Announcement announcement){
         announcement.setAnnouncementId(UUID.randomUUID().toString());
+        //设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        announcement.setAnnouncementTime(df.format(new Date()));
         System.out.println(announcement);
         try {
             announcementService.insertAnnouncement(announcement);

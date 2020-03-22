@@ -9,8 +9,18 @@ public class Announcement {
 
     private String announcementTitle;
 
+    private String announcementTime;
+
     public String getAnnouncementId() {
         return announcementId;
+    }
+
+    public String getAnnouncementTime() {
+        return announcementTime;
+    }
+
+    public void setAnnouncementTime(String announcementTime) {
+        this.announcementTime = announcementTime;
     }
 
     public void setAnnouncementId(String announcementId) {
